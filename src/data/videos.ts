@@ -10,19 +10,19 @@ export const videos: VideoItem[] = [
   },
   {
     id: "v2",
-    title: "Một ngày bình thường bên nhau",
+    title: "",
     src: "/videos/video-2.mp4",
     thumbnail: "/images/timeline/lan_hai.jpg",
   },
   {
     id: "v3",
-    title: "Một ngày bình thường bên nhau",
+    title: "",
     src: "/videos/video-3.mp4",
     thumbnail: "/images/timeline/lan_hai.jpg",
   },
   {
     id: "v4",
-    title: "Một ngày bình thường bên nhau",
+    title: "",
     src: "/videos/video-4.mp4",
     thumbnail: "/images/timeline/lan_hai.jpg",
   }

@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import { Music2, Pause, Play } from "lucide-react";
 
 const TRACK = {
-  title: "Our Song - Nhạc nền kỷ niệm",
-  src: "/audio/background-music.mp3",
+  title: "Bất chấp yêu em",
+  src: "/audio/Bất Chấp.mp3",
 };
 
 export default function MusicPlayer() {
