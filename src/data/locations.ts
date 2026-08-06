@@ -1,0 +1,60 @@
+import type { LoveLocation } from "../types";
+
+export const locations: LoveLocation[] = [
+  {
+    id: "loc1",
+    name: "Quán cà phê gần trọ bé",
+    description: "Nơi bắt đầu mọi câu chuyện, giữa mùi cà phê và một cuộc trò chuyện dài.",
+    x: 22,
+    y: 35,
+    date: "04/2026",
+  },
+  {
+    id: "loc2",
+    name: "Cần Thơ, nhà nghỉ Trung Hậu",
+    description: "Nơi bé xuống thăm Cua, trao nhau những lần đầu tiên, trải qua những cảm xúc đặc biệt.",
+    x: 45,
+    y: 55,
+    date: "05/2026",
+  },
+  {
+    id: "loc3",
+    name: "Sài gòn quận 12",
+    description: "Lên thăm bé nè cũng nhau trải qua thiệt nhiều niềm vui.",
+    x: 68,
+    y: 30,
+    date: "04/2026",
+  },
+  {
+    id: "loc4",
+    name: "Nhà nghỉ Mỹ Thanh",
+    description: "Nơi mình cùng nhau nghỉ lưng và bị điện giựt tè tè.",
+    x: 80,
+    y: 62,
+    date: "05/2026",
+  },
+  {
+    id: "loc5",
+    name: "quán ăn",
+    description: "Những quán ăn ngon Cua và bé cùng nhau trải nghiệm.",
+    x: 35,
+    y: 75,
+    date: "06/2026",
+  },
+  {
+    id: "loc6",
+    name: "Bến xe An Sương",
+    description: "Nơi bé cùng Cua ngồi đợi xe đến nè",
+    x: 50,
+    y: 40,
+    date: "07/2026",
+  },
+  {
+    id: "loc7",
+    name: "Bến xe miền tây",
+    description: "Nơi Cua lên và thăm bé trong những chuyến đi đầu tiên.",
+    x: 60,
+    y: 20,
+    date: "08/2026",
+  },
+];

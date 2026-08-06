@@ -1,0 +1,77 @@
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import StarField from "./components/StarField";
+import WelcomeScreen from "./components/WelcomeScreen";
+import LoveCounter from "./components/LoveCounter";
+import Timeline from "./components/Timeline";
+import Gallery from "./components/Gallery";
+import VideoGallery from "./components/VideoGallery";
+import MemoryCards from "./components/MemoryCards";
+import LoveLetter from "./components/LoveLetter";
+import LoveMap from "./components/LoveMap";
+import MusicPlayer from "./components/MusicPlayer";
+import Ending from "./components/Ending";
+import SectionNav from "./components/SectionNav";
+
+const SECTIONS = [
+  { id: "counter", label: "Đếm thời gian" },
+  { id: "timeline", label: "Timeline" },
+  { id: "gallery", label: "Ảnh" },
+  { id: "videos", label: "Video" },
+  { id: "memories", label: "Đáng nhớ" },
+  { id: "letter", label: "Thư tình" },
+  { id: "map", label: "Bản đồ" },
+  { id: "ending", label: "Kết thúc" },
+];
+
+export default function App() {
+  const [started, setStarted] = useState(false);
+
+  return (
+    <div className="relative min-h-screen">
+      <StarField />
+
+      <AnimatePresence mode="wait">
+        {!started ? (
+          <WelcomeScreen key="welcome" onStart={() => setStarted(true)} />
+        ) : (
+          <motion.main
+            key="journey"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.9 }}
+          >
+            <SectionNav sections={SECTIONS} />
+
+            <div id="counter">
+              <LoveCounter />
+            </div>
+            <div id="timeline">
+              <Timeline />
+            </div>
+            <div id="gallery">
+              <Gallery />
+            </div>
+            <div id="videos">
+              <VideoGallery />
+            </div>
+            <div id="memories">
+              <MemoryCards />
+            </div>
+            <div id="letter">
+              <LoveLetter />
+            </div>
+            <div id="map">
+              <LoveMap />
+            </div>
+            <div id="ending">
+              <Ending />
+            </div>
+
+            <MusicPlayer />
+          </motion.main>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}

@@ -1,0 +1,30 @@
+{
+  "root": [
+    "./src/App.tsx",
+    "./src/main.tsx",
+    "./src/components/Ending.tsx",
+    "./src/components/Gallery.tsx",
+    "./src/components/Lightbox.tsx",
+    "./src/components/LoveCounter.tsx",
+    "./src/components/LoveLetter.tsx",
+    "./src/components/LoveMap.tsx",
+    "./src/components/MemoryCards.tsx",
+    "./src/components/MusicPlayer.tsx",
+    "./src/components/SectionNav.tsx",
+    "./src/components/StarField.tsx",
+    "./src/components/Timeline.tsx",
+    "./src/components/TimelineModal.tsx",
+    "./src/components/VideoGallery.tsx",
+    "./src/components/WelcomeScreen.tsx",
+    "./src/data/couple.ts",
+    "./src/data/gallery.ts",
+    "./src/data/letter.ts",
+    "./src/data/locations.ts",
+    "./src/data/memories.ts",
+    "./src/data/timeline.ts",
+    "./src/data/videos.ts",
+    "./src/hooks/useLoveDuration.ts",
+    "./src/types/index.ts"
+  ],
+  "version": "5.9.3"
+}
