@@ -30,5 +30,23 @@ export const videos: VideoItem[] = [
     title: "",
     src: "/videos/video-5.mp4",
     thumbnail: "/images/video/video-5.jpg",
+  },
+  {
+    id: "v6",
+    title: "",
+    src: "/videos/video-6.mp4",
+    thumbnail: "/images/video/video-6.jpg",
+  },
+  {
+    id: "v7",
+    title: "",
+    src: "/videos/video-7.mp4",
+    thumbnail: "/images/video/video-7.jpg",
+  },
+  {
+    id: "v8",
+    title: "",
+    src: "/videos/video-8.mp4",
+    thumbnail: "/images/video/video-8.jpg",
   }
 ];
