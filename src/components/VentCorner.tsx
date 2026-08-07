@@ -1,6 +1,14 @@
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { Feather, HeartCrack, MessageCircleHeart, Send, Wind, CheckCircle2, Archive } from "lucide-react";
+import {
+  Feather,
+  HeartCrack,
+  MessageCircleHeart,
+  Send,
+  Wind,
+  CheckCircle2,
+  Archive,
+} from "lucide-react";
 import { couple } from "../data/couple";
 import { intensityOptions, seedNotes, wishOptions } from "../data/vent";
 import { useLocalStorage } from "../data/useLocalStorage";
@@ -26,7 +34,10 @@ function formatTime(iso: string) {
 
 export default function VentCorner() {
   const [role, setRole] = useLocalStorage<PersonKey>("vent-role", "A");
-  const [notes, setNotes] = useLocalStorage<HeartNote[]>("vent-notes", seedNotes);
+  const [notes, setNotes] = useLocalStorage<HeartNote[]>(
+    "vent-notes",
+    seedNotes,
+  );
   const [showBreath, setShowBreath] = useState(false);
 
   const [intensity, setIntensity] = useState(intensityOptions[0]);
@@ -39,9 +50,14 @@ export default function VentCorner() {
     const pending = notes.length - resolved;
     let peacefulDays = "—";
     if (notes.length > 0) {
-      const latest = notes.reduce((max, n) => (n.createdAt > max ? n.createdAt : max), notes[0].createdAt);
+      const latest = notes.reduce(
+        (max, n) => (n.createdAt > max ? n.createdAt : max),
+        notes[0].createdAt,
+      );
       const diffMs = Date.now() - new Date(latest).getTime();
-      peacefulDays = String(Math.max(0, Math.floor(diffMs / (1000 * 60 * 60 * 24))));
+      peacefulDays = String(
+        Math.max(0, Math.floor(diffMs / (1000 * 60 * 60 * 24))),
+      );
     }
     return { total: notes.length, resolved, pending, peacefulDays };
   }, [notes]);
@@ -66,7 +82,9 @@ export default function VentCorner() {
   }
 
   function toggleResolved(id: string) {
-    setNotes(notes.map((n) => (n.id === id ? { ...n, resolved: !n.resolved } : n)));
+    setNotes(
+      notes.map((n) => (n.id === id ? { ...n, resolved: !n.resolved } : n)),
+    );
   }
 
   function submitReply(id: string) {
@@ -79,11 +97,16 @@ export default function VentCorner() {
               ...n,
               comments: [
                 ...n.comments,
-                { id: `c-${Date.now()}`, author: role, text, createdAt: new Date().toISOString() },
+                {
+                  id: `c-${Date.now()}`,
+                  author: role,
+                  text,
+                  createdAt: new Date().toISOString(),
+                },
               ],
             }
-          : n
-      )
+          : n,
+      ),
     );
     setReplyDrafts((prev) => ({ ...prev, [id]: "" }));
   }
@@ -102,7 +125,8 @@ export default function VentCorner() {
         Góc tâm sự khi giận
       </motion.h2>
       <p className="text-white/50 text-center text-sm sm:text-base mb-10 max-w-xl mx-auto">
-        Khi dỗi nhau, hãy chọn viết ra thay vì im lặng hoặc nói những lời làm tổn thương nhau.
+        Khi dỗi nhau, hãy chọn viết ra thay vì im lặng hoặc nói những lời làm
+        tổn thương nhau.
       </p>
 
       {/* Role switcher */}
@@ -124,31 +148,6 @@ export default function VentCorner() {
           ))}
         </div>
       </div>
-
-      {/* Peace stats — new feature: track the emotional health of the relationship */}
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-10"
-      >
-        {[
-          { label: "Bức thư", value: stats.total },
-          { label: "Đã làm hòa", value: stats.resolved },
-          { label: "Đang chờ", value: stats.pending },
-          { label: "Ngày bình yên", value: stats.peacefulDays },
-        ].map((s) => (
-          <div key={s.label} className="glass-card rounded-2xl py-4 px-2 text-center">
-            <span className="block font-display text-2xl sm:text-3xl font-bold text-gradient tabular-nums">
-              {s.value}
-            </span>
-            <span className="block mt-1 text-[10px] sm:text-xs uppercase tracking-widest text-white/50">
-              {s.label}
-            </span>
-          </div>
-        ))}
-      </motion.div>
 
       {/* Note form */}
       <motion.div
@@ -174,7 +173,9 @@ export default function VentCorner() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <label className="block">
-              <span className="block text-xs font-semibold text-white/60 mb-1.5">Mức độ giận / buồn</span>
+              <span className="block text-xs font-semibold text-white/60 mb-1.5">
+                Mức độ giận / buồn
+              </span>
               <select
                 value={intensity}
                 onChange={(e) => setIntensity(e.target.value)}
@@ -188,7 +189,9 @@ export default function VentCorner() {
               </select>
             </label>
             <label className="block">
-              <span className="block text-xs font-semibold text-white/60 mb-1.5">Mong muốn lúc này</span>
+              <span className="block text-xs font-semibold text-white/60 mb-1.5">
+                Mong muốn lúc này
+              </span>
               <select
                 value={wish}
                 onChange={(e) => setWish(e.target.value)}
@@ -259,7 +262,9 @@ export default function VentCorner() {
                 <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-neon-violet/15 text-neon-violet">
                   {personName(note.author)} gửi
                 </span>
-                <span className="text-[11px] text-white/35">{formatTime(note.createdAt)}</span>
+                <span className="text-[11px] text-white/35">
+                  {formatTime(note.createdAt)}
+                </span>
               </div>
 
               {note.resolved ? (
@@ -277,8 +282,12 @@ export default function VentCorner() {
             </div>
 
             <div className="flex flex-wrap gap-2 text-[11px]">
-              <span className="px-2.5 py-1 rounded-lg bg-white/5 text-white/70">Mức độ: {note.intensity}</span>
-              <span className="px-2.5 py-1 rounded-lg bg-white/5 text-white/70">Mong muốn: {note.wish}</span>
+              <span className="px-2.5 py-1 rounded-lg bg-white/5 text-white/70">
+                Mức độ: {note.intensity}
+              </span>
+              <span className="px-2.5 py-1 rounded-lg bg-white/5 text-white/70">
+                Mong muốn: {note.wish}
+              </span>
             </div>
 
             <p className="text-sm text-white/80 leading-relaxed bg-black/20 p-3.5 rounded-xl border border-white/5">
@@ -287,10 +296,17 @@ export default function VentCorner() {
 
             <div className="space-y-2 pt-1">
               {note.comments.map((c) => (
-                <div key={c.id} className="pl-3 border-l-2 border-neon-pink/40 text-xs">
-                  <span className="font-semibold text-white/80">{personName(c.author)}: </span>
+                <div
+                  key={c.id}
+                  className="pl-3 border-l-2 border-neon-pink/40 text-xs"
+                >
+                  <span className="font-semibold text-white/80">
+                    {personName(c.author)}:{" "}
+                  </span>
                   <span className="text-white/60">{c.text}</span>
-                  <span className="block text-[10px] text-white/30">{formatTime(c.createdAt)}</span>
+                  <span className="block text-[10px] text-white/30">
+                    {formatTime(c.createdAt)}
+                  </span>
                 </div>
               ))}
 
@@ -298,7 +314,12 @@ export default function VentCorner() {
                 <input
                   type="text"
                   value={replyDrafts[note.id] || ""}
-                  onChange={(e) => setReplyDrafts((prev) => ({ ...prev, [note.id]: e.target.value }))}
+                  onChange={(e) =>
+                    setReplyDrafts((prev) => ({
+                      ...prev,
+                      [note.id]: e.target.value,
+                    }))
+                  }
                   onKeyDown={(e) => e.key === "Enter" && submitReply(note.id)}
                   placeholder={`Nhắn lời phản hồi với tư cách ${personName(role)}...`}
                   className="flex-1 text-xs px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:ring-1 focus:ring-neon-pink"
