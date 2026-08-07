@@ -19,7 +19,7 @@ export default function LoveMap() {
         Bản đồ tình yêu
       </motion.h2>
       <p className="text-center text-white/50 mb-12 text-sm sm:text-base">
-        Những nơi hai người đã cùng nhau đi qua
+        Những nơi hai ta đã cùng nhau đi qua
       </p>
 
       <div className="relative glass-card rounded-3xl overflow-hidden aspect-[4/3] sm:aspect-[16/9]">
