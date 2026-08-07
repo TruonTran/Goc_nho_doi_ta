@@ -5,7 +5,7 @@ import { gallery } from "../data/gallery";
 import Lightbox from "./Lightbox";
 import UploadTile from "./UploadTile";
 import { useLocalMedia } from "../hooks/useLocalMedia";
-import { uploadToCloudinary } from "../lib/cloudinary";
+import { isCloudinaryConfigured, uploadToCloudinary } from "../lib/cloudinary";
 import type { GalleryPhoto } from "../types";
 
 const spanClass: Record<string, string> = {
@@ -16,6 +16,7 @@ const spanClass: Record<string, string> = {
 
 export default function Gallery() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [photoUploadFailed, setPhotoUploadFailed] = useState(false);
   const { items: uploaded, addItem, removeItem } = useLocalMedia<GalleryPhoto>("uploaded-gallery-photos");
 
   const allPhotos: GalleryPhoto[] = [...uploaded, ...gallery];
@@ -43,12 +44,15 @@ export default function Gallery() {
       </motion.h2>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 [grid-auto-rows:110px]">
-        <UploadTile
-          accept="image/*"
-          label="Thêm ảnh"
-          className="row-span-1"
-          onUpload={handleUpload}
-        />
+        {isCloudinaryConfigured && !photoUploadFailed && (
+          <UploadTile
+            accept="image/*"
+            label="Thêm ảnh"
+            className="row-span-1"
+            onUpload={handleUpload}
+            onError={() => setPhotoUploadFailed(true)}
+          />
+        )}
 
         {allPhotos.map((photo, i) => {
           const isUploaded = photo.id.startsWith("u-");

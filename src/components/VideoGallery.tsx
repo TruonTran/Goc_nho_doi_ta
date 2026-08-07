@@ -5,7 +5,7 @@ import { videos } from "../data/videos";
 import type { VideoItem } from "../types";
 import UploadTile from "./UploadTile";
 import { useLocalMedia } from "../hooks/useLocalMedia";
-import { getCloudinaryVideoThumbnail, uploadToCloudinary } from "../lib/cloudinary";
+import { getCloudinaryVideoThumbnail, isCloudinaryConfigured, uploadToCloudinary } from "../lib/cloudinary";
 
 function fileNameToTitle(name: string) {
   return name.replace(/\.[^/.]+$/, "").replace(/[_-]+/g, " ").trim();
@@ -13,6 +13,7 @@ function fileNameToTitle(name: string) {
 
 export default function VideoGallery() {
   const [active, setActive] = useState<VideoItem | null>(null);
+  const [videoUploadFailed, setVideoUploadFailed] = useState(false);
   const { items: uploaded, addItem, removeItem } = useLocalMedia<VideoItem>("uploaded-gallery-videos");
 
   const allVideos: VideoItem[] = [...uploaded, ...videos];
@@ -40,12 +41,15 @@ export default function VideoGallery() {
       </motion.h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        <UploadTile
-          accept="video/*"
-          label="Thêm video"
-          className="h-44"
-          onUpload={handleUpload}
-        />
+        {isCloudinaryConfigured && !videoUploadFailed && (
+          <UploadTile
+            accept="video/*"
+            label="Thêm video"
+            className="h-44"
+            onUpload={handleUpload}
+            onError={() => setVideoUploadFailed(true)}
+          />
+        )}
 
         {allVideos.map((v, i) => {
           const isUploaded = v.id.startsWith("u-");

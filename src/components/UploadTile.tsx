@@ -8,9 +8,12 @@ interface Props {
   label: string;
   className?: string;
   onUpload: (file: File, onProgress: (percent: number) => void) => Promise<void>;
+  /** Nếu truyền vào, lỗi upload sẽ được báo ra ngoài qua callback này (nơi gọi tự quyết định ẩn nút hay không),
+   * thay vì UploadTile tự hiển thị thông báo lỗi bên trong nút. */
+  onError?: (message: string) => void;
 }
 
-export default function UploadTile({ accept, label, className = "", onUpload }: Props) {
+export default function UploadTile({ accept, label, className = "", onUpload, onError }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [progress, setProgress] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -22,7 +25,12 @@ export default function UploadTile({ accept, label, className = "", onUpload }: 
     try {
       await onUpload(file, setProgress);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Upload thất bại.");
+      const message = e instanceof Error ? e.message : "Upload thất bại.";
+      if (onError) {
+        onError(message);
+      } else {
+        setError(message);
+      }
     } finally {
       setProgress(null);
       if (inputRef.current) inputRef.current.value = "";
@@ -44,7 +52,7 @@ export default function UploadTile({ accept, label, className = "", onUpload }: 
       disabled={disabled}
       title={!isCloudinaryConfigured ? "Chưa cấu hình Cloudinary — xem file .env.example" : undefined}
       className={`glass-card relative overflow-hidden rounded-2xl border-2 border-dashed border-white/15 transition flex flex-col items-center justify-center gap-2 text-white/70 ${
-        isCloudinaryConfigured ? "hover:border-neon-pink/50 hover:text-white" : "opacity-40 cursor-not-allowed"
+        disabled ? "opacity-40 cursor-not-allowed" : "hover:border-neon-pink/50 hover:text-white"
       } ${className}`}
     >
       <input
