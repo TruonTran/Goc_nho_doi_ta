@@ -9,6 +9,8 @@ import VideoGallery from "./components/VideoGallery";
 import MemoryCards from "./components/MemoryCards";
 import LoveLetter from "./components/LoveLetter";
 import LoveMap from "./components/LoveMap";
+import VentCorner from "./components/VentCorner";
+import PeaceWheel from "./components/PeaceWheel";
 import MusicPlayer from "./components/MusicPlayer";
 import Ending from "./components/Ending";
 import SectionNav from "./components/SectionNav";
@@ -22,6 +24,8 @@ const SECTIONS = [
   { id: "memories", label: "Đáng nhớ" },
   { id: "letter", label: "Thư tình" },
   { id: "map", label: "Bản đồ" },
+  { id: "vent", label: "Tâm sự" },
+  { id: "wheel", label: "Làm hòa" },
   { id: "ending", label: "Kết thúc" },
 ];
 
@@ -77,6 +81,12 @@ export default function App() {
             </div>
             <div id="map">
               <LoveMap />
+            </div>
+            <div id="vent">
+              <VentCorner />
+            </div>
+            <div id="wheel">
+              <PeaceWheel />
             </div>
             <div id="ending">
               <Ending />

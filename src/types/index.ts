@@ -56,3 +56,25 @@ export interface LetterData {
   paragraphs: string[];
   signature: string;
 }
+
+// --- Góc tâm sự khi giận & Vòng quay làm hòa ---
+
+export type PersonKey = "A" | "B";
+
+export interface HeartNoteComment {
+  id: string;
+  author: PersonKey;
+  text: string;
+  createdAt: string; // ISO date string
+}
+
+export interface HeartNote {
+  id: string;
+  author: PersonKey;
+  intensity: string;
+  wish: string;
+  content: string;
+  createdAt: string; // ISO date string
+  resolved: boolean;
+  comments: HeartNoteComment[];
+}

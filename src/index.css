@@ -68,3 +68,103 @@ h3,
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* ---------- Hiệu ứng 3D & điện ảnh cho Thư viện ảnh / video ---------- */
+.tilt-card {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.glow-border {
+  position: relative;
+}
+.glow-border::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(from var(--angle, 0deg), #ff8fd6, #b48cff, #7dd3ff, #ff8fd6);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  animation: spin-border 3s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+.glow-border:hover::before {
+  opacity: 1;
+}
+@keyframes spin-border {
+  to {
+    --angle: 360deg;
+  }
+}
+
+.shimmer-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.25) 50%, transparent 70%);
+  background-size: 250% 250%;
+  background-position: -120% -120%;
+  opacity: 0;
+  pointer-events: none;
+}
+.group:hover .shimmer-overlay {
+  opacity: 1;
+  animation: shimmer-sweep 1s ease forwards;
+}
+@keyframes shimmer-sweep {
+  from {
+    background-position: -120% -120%;
+  }
+  to {
+    background-position: 120% 120%;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(180, 140, 255, 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 18px rgba(180, 140, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(180, 140, 255, 0);
+  }
+}
+.pulse-ring {
+  animation: pulse-ring 2.2s ease-out infinite;
+}
+
+/* ---------- Hiệu ứng bồng bềnh & glow mềm cho Thư viện ảnh (thay viền xoay) ---------- */
+@keyframes float-idle {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+.float-idle {
+  animation: float-idle 6s ease-in-out infinite;
+}
+
+.glow-soft {
+  transition: box-shadow 0.5s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+}
+.glow-soft:hover {
+  box-shadow: 0 18px 45px -12px rgba(180, 140, 255, 0.5), 0 0 30px -6px rgba(255, 143, 214, 0.35);
+}

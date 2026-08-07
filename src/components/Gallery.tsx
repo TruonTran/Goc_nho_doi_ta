@@ -8,14 +8,8 @@ import { useLocalMedia } from "../hooks/useLocalMedia";
 import { isCloudinaryConfigured, uploadToCloudinary } from "../lib/cloudinary";
 import type { GalleryPhoto } from "../types";
 
-const spanClass: Record<string, string> = {
-  sm: "row-span-1",
-  md: "row-span-2",
-  lg: "row-span-3",
-};
-
-/** Nghiêng thẻ ảnh theo vị trí con trỏ để tạo hiệu ứng 3D, không gây re-render. */
-function useTilt<T extends HTMLElement>(strength = 10) {
+/** Nghiêng nhẹ thẻ ảnh theo con trỏ để tạo chiều sâu, không gây re-render. */
+function useTilt<T extends HTMLElement>(strength = 7) {
   const ref = useRef<T>(null);
 
   function handleMouseMove(e: React.MouseEvent<T>) {
@@ -24,9 +18,9 @@ function useTilt<T extends HTMLElement>(strength = 10) {
     const rect = el.getBoundingClientRect();
     const px = (e.clientX - rect.left) / rect.width - 0.5;
     const py = (e.clientY - rect.top) / rect.height - 0.5;
-    el.style.transform = `perspective(900px) rotateX(${(-py * strength).toFixed(2)}deg) rotateY(${(
+    el.style.transform = `perspective(1000px) rotateX(${(-py * strength).toFixed(2)}deg) rotateY(${(
       px * strength
-    ).toFixed(2)}deg) scale3d(1.04,1.04,1.04)`;
+    ).toFixed(2)}deg) scale3d(1.03,1.03,1.03)`;
     el.style.setProperty("--glow-x", `${(px + 0.5) * 100}%`);
     el.style.setProperty("--glow-y", `${(py + 0.5) * 100}%`);
   }
@@ -34,7 +28,7 @@ function useTilt<T extends HTMLElement>(strength = 10) {
   function handleMouseLeave() {
     const el = ref.current;
     if (!el) return;
-    el.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)";
+    el.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)";
   }
 
   return { ref, handleMouseMove, handleMouseLeave };
@@ -53,66 +47,78 @@ function PhotoCard({
   onOpen: () => void;
   onRemove: () => void;
 }) {
-  const { ref, handleMouseMove, handleMouseLeave } = useTilt<HTMLDivElement>(9);
+  const { ref, handleMouseMove, handleMouseLeave } = useTilt<HTMLDivElement>(7);
 
   return (
     <motion.div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      initial={{ opacity: 0, y: 26, scale: 0.9, filter: "blur(6px)" }}
+      initial={{ opacity: 0, y: 36, scale: 0.9, filter: "blur(8px)" }}
       whileInView={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.6, delay: (index % 8) * 0.06, ease: [0.22, 1, 0.36, 1] }}
-      className={`tilt-card glow-border group relative overflow-hidden rounded-2xl ${
-        spanClass[photo.size ?? "sm"]
-      }`}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.7, delay: (index % 10) * 0.05, ease: [0.16, 1, 0.3, 1] }}
+      className="mb-4 sm:mb-5 break-inside-avoid"
     >
-      <button onClick={onOpen} className="relative block w-full h-full">
-        <motion.img
-          layoutId={`photo-${photo.id}`}
-          src={photo.src}
-          alt={photo.caption ?? ""}
-          className="w-full h-full object-cover transition duration-500 group-hover:brightness-[1.08]"
-          onError={(e) => {
-            (e.currentTarget as HTMLImageElement).style.background =
-              "linear-gradient(135deg,#b48cff40,#ff8fd640)";
-          }}
-        />
-
-        {/* Ánh sáng theo con trỏ */}
+      {/* Lớp ngoài: trôi bồng bềnh liên tục, tạo cảm giác lơ lửng */}
+      <div
+        className="float-idle"
+        style={{
+          animationDelay: `${(index % 6) * 0.35}s`,
+          animationDuration: `${5.5 + (index % 4) * 0.6}s`,
+        }}
+      >
+        {/* Lớp trong: nghiêng theo con trỏ + glow mềm */}
         <div
-          className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          style={{
-            background:
-              "radial-gradient(180px circle at var(--glow-x,50%) var(--glow-y,50%), rgba(255,255,255,0.28), transparent 60%)",
-          }}
-        />
+          ref={ref}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          className="tilt-card glow-soft group relative overflow-hidden rounded-3xl"
+        >
+          <button onClick={onOpen} className="relative block w-full">
+            <motion.img
+              layoutId={`photo-${photo.id}`}
+              src={photo.src}
+              alt={photo.caption ?? ""}
+              className="w-full h-auto object-cover rounded-3xl transition duration-700 group-hover:brightness-[1.08]"
+              onError={(e) => {
+                (e.currentTarget as HTMLImageElement).style.background =
+                  "linear-gradient(135deg,#b48cff40,#ff8fd640)";
+              }}
+            />
 
-        {/* Quét sáng shimmer */}
-        <div className="shimmer-overlay" />
+            {/* Ánh sáng theo con trỏ */}
+            <div
+              className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              style={{
+                background:
+                  "radial-gradient(220px circle at var(--glow-x,50%) var(--glow-y,50%), rgba(255,255,255,0.25), transparent 65%)",
+              }}
+            />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-3">
-          {photo.caption && (
-            <span className="text-white text-xs sm:text-sm translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
-              {photo.caption}
-            </span>
+            {/* Quét sáng shimmer */}
+            <div className="shimmer-overlay rounded-3xl" />
+
+            <div className="absolute inset-0 rounded-3xl bg-gradient-to-t from-black/75 via-black/5 to-transparent opacity-0 group-hover:opacity-100 transition duration-400 flex items-end p-4">
+              {photo.caption && (
+                <span className="text-white text-xs sm:text-sm translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                  {photo.caption}
+                </span>
+              )}
+            </div>
+          </button>
+
+          {isUploaded && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onRemove();
+              }}
+              className="absolute top-2 right-2 z-10 p-1.5 rounded-full bg-black/60 hover:bg-black/80 opacity-0 group-hover:opacity-100 transition"
+              aria-label="Xoá ảnh"
+            >
+              <X size={14} />
+            </button>
           )}
         </div>
-      </button>
-
-      {isUploaded && (
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onRemove();
-          }}
-          className="absolute top-2 right-2 z-10 p-1.5 rounded-full bg-black/60 hover:bg-black/80 opacity-0 group-hover:opacity-100 transition"
-          aria-label="Xoá ảnh"
-        >
-          <X size={14} />
-        </button>
-      )}
+      </div>
     </motion.div>
   );
 }
@@ -146,15 +152,20 @@ export default function Gallery() {
         Thư viện ảnh
       </motion.h2>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 [grid-auto-rows:110px]" style={{ perspective: 1200 }}>
+      <div
+        className="columns-2 sm:columns-3 md:columns-4 lg:columns-4 gap-4 sm:gap-5"
+        style={{ perspective: 1400 }}
+      >
         {isCloudinaryConfigured && !photoUploadFailed && (
-          <UploadTile
-            accept="image/*"
-            label="Thêm ảnh"
-            className="row-span-1"
-            onUpload={handleUpload}
-            onError={() => setPhotoUploadFailed(true)}
-          />
+          <div className="mb-4 sm:mb-5 break-inside-avoid">
+            <UploadTile
+              accept="image/*"
+              label="Thêm ảnh"
+              className="h-40 w-full"
+              onUpload={handleUpload}
+              onError={() => setPhotoUploadFailed(true)}
+            />
+          </div>
         )}
 
         {allPhotos.map((photo, i) => (
