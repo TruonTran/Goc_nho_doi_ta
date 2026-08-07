@@ -16,7 +16,7 @@ export default function UploadTile({ accept, label, className = "", onUpload }: 
   const [error, setError] = useState<string | null>(null);
 
   async function handleFile(file: File | undefined) {
-    if (!file) return;
+    if (!file || !isCloudinaryConfigured) return;
     setError(null);
     setProgress(0);
     try {
@@ -30,6 +30,7 @@ export default function UploadTile({ accept, label, className = "", onUpload }: 
   }
 
   const busy = progress !== null;
+  const disabled = busy || !isCloudinaryConfigured;
 
   return (
     <motion.button
@@ -38,10 +39,13 @@ export default function UploadTile({ accept, label, className = "", onUpload }: 
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.5 }}
-      whileHover={{ scale: busy ? 1 : 1.02 }}
-      onClick={() => !busy && inputRef.current?.click()}
-      disabled={busy}
-      className={`glass-card relative overflow-hidden rounded-2xl border-2 border-dashed border-white/15 hover:border-neon-pink/50 transition flex flex-col items-center justify-center gap-2 text-white/70 hover:text-white ${className}`}
+      whileHover={{ scale: disabled ? 1 : 1.02 }}
+      onClick={() => !disabled && inputRef.current?.click()}
+      disabled={disabled}
+      title={!isCloudinaryConfigured ? "Chưa cấu hình Cloudinary — xem file .env.example" : undefined}
+      className={`glass-card relative overflow-hidden rounded-2xl border-2 border-dashed border-white/15 transition flex flex-col items-center justify-center gap-2 text-white/70 ${
+        isCloudinaryConfigured ? "hover:border-neon-pink/50 hover:text-white" : "opacity-40 cursor-not-allowed"
+      } ${className}`}
     >
       <input
         ref={inputRef}
