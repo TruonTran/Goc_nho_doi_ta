@@ -1,29 +1,34 @@
 import type { VideoItem } from "../types";
 
-// 👉 Đặt file video trong /public/videos/ và ảnh thumbnail trong /public/images/videos/
 export const videos: VideoItem[] = [
   {
     id: "v1",
     title: "Lần đầu gặp nhau",
     src: "/videos/video-1.mp4",
-    thumbnail: "/images/timeline/lan_hai.jpg",
+    thumbnail: "/images/video/video-1.jpg",
   },
   {
     id: "v2",
     title: "",
     src: "/videos/video-2.mp4",
-    thumbnail: "/images/timeline/lan_hai.jpg",
+    thumbnail: "/images/video/video-2.jpg",
   },
   {
     id: "v3",
     title: "",
     src: "/videos/video-3.mp4",
-    thumbnail: "/images/timeline/lan_hai.jpg",
+    thumbnail: "/images/video/video-3.jpg",
   },
   {
     id: "v4",
     title: "",
     src: "/videos/video-4.mp4",
-    thumbnail: "/images/timeline/lan_hai.jpg",
+    thumbnail: "/images/video/video-4.jpg",
+  },
+  {
+    id: "v5",
+    title: "",
+    src: "/videos/video-5.mp4",
+    thumbnail: "/images/video/video-5.jpg",
   }
 ];

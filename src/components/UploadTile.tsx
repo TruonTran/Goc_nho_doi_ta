@@ -8,8 +8,6 @@ interface Props {
   label: string;
   className?: string;
   onUpload: (file: File, onProgress: (percent: number) => void) => Promise<void>;
-  /** Nếu truyền vào, lỗi upload sẽ được báo ra ngoài qua callback này (nơi gọi tự quyết định ẩn nút hay không),
-   * thay vì UploadTile tự hiển thị thông báo lỗi bên trong nút. */
   onError?: (message: string) => void;
 }
 
