@@ -6,6 +6,7 @@ import Lightbox from "./Lightbox";
 import UploadTile from "./UploadTile";
 import { useLocalMedia } from "../hooks/useLocalMedia";
 import { isCloudinaryConfigured, uploadToCloudinary } from "../lib/cloudinary";
+import { isSupabaseConfigured } from "../lib/supabase";
 import type { GalleryPhoto } from "../types";
 
 /** Nghiêng nhẹ thẻ ảnh theo con trỏ để tạo chiều sâu, không gây re-render. */
@@ -126,7 +127,7 @@ function PhotoCard({
 export default function Gallery() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [photoUploadFailed, setPhotoUploadFailed] = useState(false);
-  const { items: uploaded, addItem, removeItem } = useLocalMedia<GalleryPhoto>("uploaded-gallery-photos");
+  const { items: uploaded, addItem, removeItem } = useLocalMedia<GalleryPhoto>("gallery_photos");
 
   const allPhotos: GalleryPhoto[] = [...uploaded, ...gallery];
 
@@ -156,7 +157,7 @@ export default function Gallery() {
         className="columns-2 sm:columns-3 md:columns-4 lg:columns-4 gap-4 sm:gap-5"
         style={{ perspective: 1400 }}
       >
-        {isCloudinaryConfigured && !photoUploadFailed && (
+        {isCloudinaryConfigured && isSupabaseConfigured && !photoUploadFailed && (
           <div className="mb-4 sm:mb-5 break-inside-avoid">
             <UploadTile
               accept="image/*"

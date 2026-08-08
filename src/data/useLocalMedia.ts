@@ -1,13 +1,13 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase, isSupabaseConfigured } from "../lib/supabase";
 
 export function useLocalMedia<T extends { id: string }>(table: string) {
   const [items, setItems] = useState<T[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Tải dữ liệu ban đầu + tự cập nhật realtime khi có máy khác thêm/xoá
   useEffect(() => {
     if (!isSupabaseConfigured) {
-      console.error("Chua cau hinh Supabase (thieu VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY).");
       setLoading(false);
       return;
     }
@@ -22,7 +22,7 @@ export function useLocalMedia<T extends { id: string }>(table: string) {
 
       if (!isMounted) return;
       if (error) {
-        console.error(`Khong tai duoc du lieu tu bang "${table}":`, error.message);
+        console.error(`Không tải được dữ liệu từ bảng "${table}":`, error.message);
       } else {
         setItems((data ?? []) as T[]);
       }
@@ -30,7 +30,7 @@ export function useLocalMedia<T extends { id: string }>(table: string) {
     }
 
     fetchItems();
-
+    
     const channel = supabase
       .channel(`public:${table}`)
       .on(
@@ -48,21 +48,23 @@ export function useLocalMedia<T extends { id: string }>(table: string) {
 
   async function addItem(item: T) {
     if (!isSupabaseConfigured) {
-      console.error("Chua cau hinh Supabase (thieu VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY).");
+      console.error("Chưa cấu hình Supabase (thiếu VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY).");
       return;
     }
     const { error } = await supabase.from(table).insert(item);
     if (error) {
-      console.error(`Khong luu duoc vao bang "${table}":`, error.message);
-      throw new Error("Luu du lieu that bai. Vui long thu lai.");
+      console.error(`Không lưu được vào bảng "${table}":`, error.message);
+      throw new Error("Lưu dữ liệu thất bại. Vui lòng thử lại.");
     }
+    // Không cần setItems thủ công — subscription realtime ở trên sẽ tự cập nhật
+    // cho chính máy này và tất cả máy khác đang mở trang.
   }
 
   async function removeItem(id: string) {
     if (!isSupabaseConfigured) return;
     const { error } = await supabase.from(table).delete().eq("id", id);
     if (error) {
-      console.error(`Khong xoa duoc khoi bang "${table}":`, error.message);
+      console.error(`Không xoá được khỏi bảng "${table}":`, error.message);
     }
   }
 

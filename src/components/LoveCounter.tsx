@@ -23,7 +23,7 @@ export default function LoveCounter() {
         transition={{ duration: 0.7 }}
         className="section-title text-3xl sm:text-4xl md:text-5xl mb-3 text-gradient"
       >
-        Chúng ta đã yêu nhau được
+        Chúng ta đã yêu nhau
       </motion.h2>
       <p className="text-white/50 mb-12 text-sm sm:text-base">
         Kể từ {new Date(couple.loveStartDate).toLocaleDateString("vi-VN")} đến bây giờ

@@ -107,14 +107,14 @@ export default function WelcomeScreen({ onStart }: Props) {
         <span className="relative z-10">Bắt đầu hành trình ✨</span>
       </motion.button>
 
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, y: [0, 8, 0] }}
         transition={{ delay: 1.6, duration: 2, repeat: Infinity }}
         className="absolute bottom-8 text-white/40 text-xs tracking-widest"
       >
         cuộn xuống để khám phá
-      </motion.div>
+      </motion.div> */}
     </motion.section>
   );
 }

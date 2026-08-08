@@ -1,6 +1,5 @@
 import type { GalleryPhoto } from "../types";
 
-// 👉 Thêm ảnh kỷ niệm vào đây. Đặt file ảnh trong /public/images/gallery/
 export const gallery: GalleryPhoto[] = [
   { id: "g1", src: "/images/gallery/photo-1.jpg", caption: "Thiên thần của lòng Cua", size: "lg" },
   { id: "g2", src: "/images/gallery/photo-2.jpg", caption: "", size: "md" },
