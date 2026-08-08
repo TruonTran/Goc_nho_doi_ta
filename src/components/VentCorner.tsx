@@ -10,17 +10,14 @@ import {
   Archive,
 } from "lucide-react";
 import { couple } from "../data/couple";
-import { intensityOptions, seedNotes, wishOptions } from "../data/vent";
+import { intensityOptions, wishOptions } from "../data/vent";
 import { useLocalStorage } from "../data/useLocalStorage";
-import type { HeartNote, PersonKey } from "../types";
+import { useVentNotes } from "../data/useVentNotes";
+import type { PersonKey } from "../types";
 import BreathModal from "./BreathModal";
 
 function personName(key: PersonKey) {
   return key === "A" ? couple.personA.name : couple.personB.name;
-}
-
-function otherPerson(key: PersonKey): PersonKey {
-  return key === "A" ? "B" : "A";
 }
 
 function formatTime(iso: string) {
@@ -33,11 +30,13 @@ function formatTime(iso: string) {
 }
 
 export default function VentCorner() {
+  // "Đang đóng vai A hay B trên máy này" — chỉ là lựa chọn riêng của thiết bị,
+  // không cần đồng bộ, nên vẫn giữ trong localStorage.
   const [role, setRole] = useLocalStorage<PersonKey>("vent-role", "A");
-  const [notes, setNotes] = useLocalStorage<HeartNote[]>(
-    "vent-notes",
-    seedNotes,
-  );
+
+  // Danh sách tâm sự — lấy/lưu qua Supabase để đồng bộ giữa các thiết bị.
+  const { notes, addNote, toggleResolved, addComment } = useVentNotes();
+
   const [showBreath, setShowBreath] = useState(false);
 
   const [intensity, setIntensity] = useState(intensityOptions[0]);
@@ -62,52 +61,23 @@ export default function VentCorner() {
     return { total: notes.length, resolved, pending, peacefulDays };
   }, [notes]);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!content.trim()) return;
 
-    const newNote: HeartNote = {
-      id: `note-${Date.now()}`,
+    await addNote({
       author: role,
       intensity,
       wish,
       content: content.trim(),
-      createdAt: new Date().toISOString(),
-      resolved: false,
-      comments: [],
-    };
-
-    setNotes([newNote, ...notes]);
+    });
     setContent("");
   }
 
-  function toggleResolved(id: string) {
-    setNotes(
-      notes.map((n) => (n.id === id ? { ...n, resolved: !n.resolved } : n)),
-    );
-  }
-
-  function submitReply(id: string) {
+  async function submitReply(id: string) {
     const text = (replyDrafts[id] || "").trim();
     if (!text) return;
-    setNotes(
-      notes.map((n) =>
-        n.id === id
-          ? {
-              ...n,
-              comments: [
-                ...n.comments,
-                {
-                  id: `c-${Date.now()}`,
-                  author: role,
-                  text,
-                  createdAt: new Date().toISOString(),
-                },
-              ],
-            }
-          : n,
-      ),
-    );
+    await addComment(id, role, text);
     setReplyDrafts((prev) => ({ ...prev, [id]: "" }));
   }
 
