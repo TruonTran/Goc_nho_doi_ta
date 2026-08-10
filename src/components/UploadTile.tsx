@@ -9,9 +9,18 @@ interface Props {
   className?: string;
   onUpload: (file: File, onProgress: (percent: number) => void) => Promise<void>;
   onError?: (message: string) => void;
+  /** Giới hạn dung lượng (MB). Nếu file vượt quá, báo lỗi ngay, không gọi onUpload. */
+  maxSizeMB?: number;
 }
 
-export default function UploadTile({ accept, label, className = "", onUpload, onError }: Props) {
+export default function UploadTile({
+  accept,
+  label,
+  className = "",
+  onUpload,
+  onError,
+  maxSizeMB,
+}: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [progress, setProgress] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -19,6 +28,21 @@ export default function UploadTile({ accept, label, className = "", onUpload, on
   async function handleFile(file: File | undefined) {
     if (!file || !isCloudinaryConfigured) return;
     setError(null);
+
+    if (maxSizeMB) {
+      const sizeMB = file.size / (1024 * 1024);
+      if (sizeMB > maxSizeMB) {
+        const message = `File nặng ${sizeMB.toFixed(0)}MB, vượt quá giới hạn cho phép (${maxSizeMB}MB). Hãy nén nhỏ lại hoặc chọn file khác.`;
+        if (onError) {
+          onError(message);
+        } else {
+          setError(message);
+        }
+        if (inputRef.current) inputRef.current.value = "";
+        return;
+      }
+    }
+
     setProgress(0);
     try {
       await onUpload(file, setProgress);

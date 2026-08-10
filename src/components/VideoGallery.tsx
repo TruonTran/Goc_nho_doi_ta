@@ -8,6 +8,10 @@ import { useLocalMedia } from "../hooks/useLocalMedia";
 import { getCloudinaryVideoThumbnail, isCloudinaryConfigured, uploadToCloudinary } from "../lib/cloudinary";
 import { isSupabaseConfigured } from "../lib/supabase";
 
+// Cloudinary chặn cứng file > 100MB ở tầng account (không né được dù chia chunk).
+// Báo lỗi ngay khi chọn file thay vì để người dùng chờ upload rồi mới biết fail.
+const MAX_VIDEO_SIZE_MB = 95;
+
 function fileNameToTitle(name: string) {
   return name.replace(/\.[^/.]+$/, "").replace(/[_-]+/g, " ").trim();
 }
@@ -119,7 +123,6 @@ function VideoCard({
 
 export default function VideoGallery() {
   const [active, setActive] = useState<VideoItem | null>(null);
-  const [videoUploadFailed, setVideoUploadFailed] = useState(false);
   const { items: uploaded, addItem, removeItem } = useLocalMedia<VideoItem>("gallery_videos");
 
   const allVideos: VideoItem[] = [...uploaded, ...videos];
@@ -147,13 +150,13 @@ export default function VideoGallery() {
       </motion.h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" style={{ perspective: 1400 }}>
-        {isCloudinaryConfigured && isSupabaseConfigured && !videoUploadFailed && (
+        {isCloudinaryConfigured && isSupabaseConfigured && (
           <UploadTile
             accept="video/*"
             label="Thêm video"
             className="h-44"
             onUpload={handleUpload}
-            onError={() => setVideoUploadFailed(true)}
+            maxSizeMB={MAX_VIDEO_SIZE_MB}
           />
         )}
 
