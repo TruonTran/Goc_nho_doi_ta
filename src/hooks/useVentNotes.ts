@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase, isSupabaseConfigured } from "../lib/supabase";
+import { notifyNewVentNote } from "../lib/Emailnotify";
 import type { HeartNote, HeartNoteComment, PersonKey } from "../types";
 
 const TABLE = "vent_notes";
@@ -87,6 +88,10 @@ export function useVentNotes() {
       console.error(`Không lưu được vào bảng "${TABLE}":`, error.message);
       throw new Error("Gửi tâm sự thất bại. Vui lòng thử lại.");
     }
+
+    // Báo cho đối phương qua email — không chờ đợi lâu và không làm hỏng luồng
+    // chính nếu gửi mail thất bại (xem ghi chú trong notifyNewVentNote).
+    notifyNewVentNote(note);
   }
 
   async function toggleResolved(id: string) {
