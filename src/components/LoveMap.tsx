@@ -31,10 +31,14 @@ export default function LoveMap() {
               "radial-gradient(circle at 30% 30%, rgba(180,140,255,0.18), transparent 55%), radial-gradient(circle at 75% 65%, rgba(255,143,214,0.16), transparent 55%), linear-gradient(160deg, #150e2e, #0b0a1f)",
           }}
         />
-        <svg className="absolute inset-0 w-full h-full opacity-40" preserveAspectRatio="none">
+        <svg
+          className="absolute inset-0 w-full h-full opacity-40"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+        >
           <path
             d={locations
-              .map((l, i) => `${i === 0 ? "M" : "L"} ${l.x}% ${l.y}%`)
+              .map((l, i) => `${i === 0 ? "M" : "L"} ${l.x} ${l.y}`)
               .join(" ")}
             fill="none"
             stroke="url(#lineGrad)"

@@ -11,8 +11,8 @@ import {
 } from "lucide-react";
 import { couple } from "../data/couple";
 import { intensityOptions, wishOptions } from "../data/vent";
-import { useLocalStorage } from "../data/useLocalStorage";
-import { useVentNotes } from "../data/useVentNotes";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import { useVentNotes } from "../hooks/useVentNotes";
 import type { PersonKey } from "../types";
 import BreathModal from "./BreathModal";
 
