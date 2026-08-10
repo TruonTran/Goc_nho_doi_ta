@@ -1,10 +1,29 @@
 import type { HeartNote } from "../types";
 
 export const intensityOptions = [
+  "Đang rất vui vẻ 😄",
+  "Tâm trạng khá tốt 😊",
+  "Bình thường thôi 😌",
+  "Có chút suy nghĩ 🤔",
+  "Hơi chạnh lòng 😕",
+  "Buồn 😔",
+  "Thất vọng 😞",
+  "Tủi thân 🥹",
+  "Căng thẳng nhẹ 😣",
+  "Đang khá stress 😵‍💫",
+  "Áp lực và mệt mỏi 😩",
   "Hơi dỗi chút thôi 😤",
-  "Buồn và thất vọng 😔",
-  "Đang rất tức giận 🌋",
-  "Muốn xin lỗi trước 🥺",
+  "Đang giận đó nha 😠",
+  "Rất tức giận 🌋",
+  "Không muốn nói chuyện 🙃",
+  "Đã đỡ stress hơn 😮‍💨",
+  "Đang bình tĩnh lại 🌱",
+  "Đang mềm lòng 🥺",
+  "Muốn được xin lỗi 💌",
+  "Muốn được dỗ dành 🤗",
+  "Muốn làm hòa 💞",
+  "Muốn xin lỗi chân thành 🙏",
+  "Sẵn sàng bỏ qua ❤️",
 ];
 
 export const wishOptions = [
@@ -12,6 +31,22 @@ export const wishOptions = [
   "Cùng ngồi xuống nói chuyện nhẹ nhàng ☕",
   "Cho mình chút thời gian riêng để bình tĩnh 🧘",
   "Đối phương nhận sai và xin lỗi 🥺",
+  "Một lời xin lỗi chân thành 🙏",
+  "Được lắng nghe đến hết câu 👂",
+  "Được thấu hiểu cảm xúc của mình ❤️",
+  "Được dỗ dành một chút 🤗",
+  "Được quan tâm nhiều hơn 🌷",
+  "Được an ủi khi mệt mỏi 🌙",
+  "Cùng tìm cách giải quyết vấn đề 🧩",
+  "Làm hòa và bắt đầu lại 💞",
+  "Không nhắc lại chuyện cũ nữa 🌱",
+  "Được tôn trọng cảm xúc của mình ✨",
+  "Nhận một tin nhắn quan tâm 💬",
+  "Cùng đi đâu đó để thư giãn 🚶",
+  "Được ở cạnh nhau trong im lặng 🌤️",
+  "Có thêm sự tin tưởng từ đối phương 🤝",
+  "Được động viên khi đang stress 💪",
+  "Chỉ cần đối phương ở bên cạnh thôi 🥰",
 ];
 
 export const wheelChallenges = [
@@ -23,7 +58,28 @@ export const wheelChallenges = [
   "Viết một lời xin lỗi thật dễ thương 💌",
   "Nhìn vào mắt nhau và cười trong 10 giây 👀",
   "Kể lại kỷ niệm đáng yêu nhất của hai đứa 🌟",
+  "Nói 5 lời khen chân thành 💖",
+  "Nhắn một đoạn cảm ơn dài 3 câu 💬",
+  "Nắm tay nhau trong 5 phút 🤝",
+  "Tặng một biệt danh dễ thương mới 🐣",
+  "Kể một điều bạn cảm thấy có lỗi 😔",
+  "Nói 'Anh/Em yêu em/anh' bằng 3 cách khác nhau 🥰",
+  "Chụp một tấm ảnh đáng yêu cùng nhau 📸",
+  "Mô tả đối phương bằng 5 từ tích cực ✨",
+  "Cho đối phương quyền sai vặt 1 lần 😆",
+  "Gửi một sticker dễ thương ngay lập tức 🐰",
+  "Kể một bí mật nhỏ chưa từng nói 🤫",
+  "Tái hiện buổi hẹn đầu tiên trong 1 phút 💞",
+  "Nói điều bạn nhớ nhất về đối phương 🌹",
+  "Đổi ảnh nền thành ảnh đôi trong 24 giờ 🖼️",
+  "Tạo một lời hứa ngọt ngào cho tuần này 🌈",
+  "Nói lời xin lỗi chân thành trong 30 giây 🙏",
+  "Hôn lên trán đối phương 💋",
+  "Cho đối phương chọn hoạt động hẹn hò tiếp theo 🎡",
+  "Viết một lá thư ngắn bày tỏ cảm xúc ❤️",
+  "Đọc to một tin nhắn yêu thương 💌",
+  "Nói điều khiến bạn tự hào nhất về đối phương 🌟",
+  "Tặng một cái ôm kèm lời động viên 🤗",
 ];
 
-export const seedNotes: HeartNote[] = [
-];
+export const seedNotes: HeartNote[] = [];
