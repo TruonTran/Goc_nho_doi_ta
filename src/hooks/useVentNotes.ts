@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase, isSupabaseConfigured } from "../lib/supabase";
-import { notifyNewVentNote } from "../lib/Emailnotify";
+import { notifyNewVentNote } from "../lib/emailNotify";
 import type { HeartNote, HeartNoteComment, PersonKey } from "../types";
 
 const TABLE = "vent_notes";
