@@ -2,9 +2,6 @@ import emailjs from "@emailjs/browser";
 import { couple } from "../data/couple";
 import type { PersonKey } from "../types";
 
-// 👉 Dùng EmailJS (gửi email thẳng từ trình duyệt, không cần server riêng).
-// Tạo tài khoản free tại https://www.emailjs.com (200 email/tháng miễn phí),
-// rồi điền 3 giá trị Public Key / Service ID / Template ID vào file .env.
 const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as string | undefined;
 const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string | undefined;
 const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string | undefined;
