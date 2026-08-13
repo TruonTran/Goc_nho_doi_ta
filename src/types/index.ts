@@ -57,6 +57,14 @@ export interface LetterData {
   signature: string;
 }
 
+export interface LoveLetterEnvelope {
+  id: string;
+  author: PersonKey;
+  title: string;
+  content: string;
+  createdAt: string; // ISO date string
+}
+
 // --- Góc tâm sự khi giận & Vòng quay làm hòa ---
 
 export type PersonKey = "A" | "B";

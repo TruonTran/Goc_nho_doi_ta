@@ -15,18 +15,32 @@ import MusicPlayer from "./components/MusicPlayer";
 import Ending from "./components/Ending";
 import SectionNav from "./components/SectionNav";
 import SplashCursor from "./components/SplashCursor";
+import FanMenu from "./components/FanMenu";
+import {
+  Clock,
+  Image,
+  Film,
+  Heart,
+  Mail,
+  MapPin,
+  MessageCircleHeart,
+  HandHeart,
+  Sparkles,
+} from "lucide-react";
 
 const SECTIONS = [
-  { id: "counter", label: "Đếm thời gian" },
-  { id: "timeline", label: "Timeline" },
-  { id: "gallery", label: "Ảnh" },
-  { id: "videos", label: "Video" },
-  { id: "memories", label: "Đáng nhớ" },
-  { id: "letter", label: "Thư tình" },
-  { id: "map", label: "Bản đồ" },
-  { id: "vent", label: "Tâm sự" },
-  { id: "wheel", label: "Làm hòa" },
-  { id: "ending", label: "Kết thúc" },
+  { id: "counter", label: "Đếm thời gian", icon: Clock },
+  { id: "vent", label: "Tâm sự", icon: MessageCircleHeart },
+  { id: "wheel", label: "Làm hòa", icon: HandHeart },
+  // { id: "timeline", label: "Timeline" },
+  // { id: "gallery", label: "Ảnh", icon: Image },
+  // { id: "videos", label: "Video", icon: Film },
+  // { id: "memories", label: "Đáng nhớ", icon: Heart },
+  // { id: "letter", label: "Thư tình", icon: Mail },
+  // { id: "map", label: "Bản đồ", icon: MapPin },
+  // { id: "ending", label: "Kết thúc", icon: Sparkles },
+  // ví dụ link qua trang khác:
+  { id: "letters-page", label: "Hộp thư", href: "/letters", icon: Mail },
 ];
 
 export default function App() {
@@ -59,7 +73,7 @@ export default function App() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.9 }}
           >
-            <SectionNav sections={SECTIONS} />
+            <FanMenu items={SECTIONS} radius={220} arcFrom={-10} arcTo={110} />
 
             <div id="counter">
               <LoveCounter />
