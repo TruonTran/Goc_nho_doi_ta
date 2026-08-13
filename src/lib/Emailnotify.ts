@@ -6,12 +6,9 @@ const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as string | undefined
 const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string | undefined;
 const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string | undefined;
 
-// Email nhận thông báo của từng người — người A viết thì gửi cho email B, và ngược lại.
 const NOTIFY_EMAIL_A = import.meta.env.VITE_NOTIFY_EMAIL_A as string | undefined;
 const NOTIFY_EMAIL_B = import.meta.env.VITE_NOTIFY_EMAIL_B as string | undefined;
 
-// Link dẫn về web trong email — điền domain thật của bạn vào .env (VITE_SITE_URL),
-// nếu để trống thì email vẫn gửi được, chỉ là nút "Vào xem ngay" sẽ trỏ về "#".
 const SITE_URL = (import.meta.env.VITE_SITE_URL as string | undefined) || "#";
 
 export const isEmailNotifyConfigured = Boolean(SERVICE_ID && TEMPLATE_ID && PUBLIC_KEY);
