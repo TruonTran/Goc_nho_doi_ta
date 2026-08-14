@@ -74,7 +74,7 @@ export default function NewLetterForm({ onSubmit }: Props) {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            placeholder="Ví dụ: Gửi người thương của anh/em..."
+            placeholder="Gửi người thương..."
             className="w-full text-sm rounded-xl bg-white/5 border border-white/10 p-3 text-white placeholder:text-white/30 focus:outline-none focus:ring-1 focus:ring-neon-pink"
           />
         </label>

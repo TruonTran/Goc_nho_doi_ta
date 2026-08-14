@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowLeft, Mail, PenLine } from "lucide-react";
 import StarField from "./StarField";
 import EnvelopeCard from "./EnvelopeCard";
@@ -44,8 +44,7 @@ export default function LettersPage() {
           <Mail className="text-neon-pink" /> Hộp thư
         </motion.h1>
         <p className="text-white/50 text-center text-sm sm:text-base mb-10 max-w-xl mx-auto">
-          Mỗi lá thư là một phong bì nhỏ — chạm vào con dấu để mở ra, rồi chạm
-          vào tờ thư để đọc trọn vẹn.
+          Mỗi lá thư là một tâm tư nhỏ muốn gửi gắm cho đối phương
         </p>
 
         <div className="flex justify-center mb-8">
@@ -58,7 +57,17 @@ export default function LettersPage() {
           </button>
         </div>
 
-        <AnimatePresence>{showForm && <NewLetterForm onSubmit={addLetter} />}</AnimatePresence>
+        {/* Dùng CSS grid-template-rows 0fr -> 1fr để đóng/mở mượt mà, thay vì
+            nhờ Framer Motion nội suy height: "auto" (dễ giật/lỗi layout). */}
+        <div
+          className={`grid transition-[grid-template-rows] duration-[400ms] ease-in-out ${
+            showForm ? "grid-rows-[1fr] opacity-100 mb-10" : "grid-rows-[0fr] opacity-0 mb-0"
+          }`}
+        >
+          <div className="overflow-hidden">
+            <NewLetterForm onSubmit={addLetter} />
+          </div>
+        </div>
 
         {loading && (
           <p className="text-center text-white/40 text-sm py-10">Đang tải hộp thư...</p>
@@ -66,11 +75,11 @@ export default function LettersPage() {
 
         {!loading && letters.length === 0 && (
           <div className="glass-card rounded-2xl py-12 text-center text-white/40 text-sm">
-            Hộp thư đang trống. Viết lá thư đầu tiên đi nào 💌
+            Hộp thư đang trống. Viết lá thư tình đầu tiên đi nào 💌
           </div>
         )}
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10 pt-4">
           {letters.map((letter) => (
             <EnvelopeCard
               key={letter.id}
